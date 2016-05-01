@@ -67,7 +67,8 @@ public class MovieApiUtil extends AsyncTask<String, Void, List<Movie>> {
             }
 
             Uri builtUri = Uri.parse(apiURL).buildUpon()
-                    .appendQueryParameter(APPID_PARAM, "e40bcb18bc64437dbd793d31d46c724f")
+//                    .appendQueryParameter(APPID_PARAM, "e40bcb18bc64437dbd793d31d46c724f")
+//                    add your own api key
                     .build();
 
             URL url = new URL(builtUri.toString());
