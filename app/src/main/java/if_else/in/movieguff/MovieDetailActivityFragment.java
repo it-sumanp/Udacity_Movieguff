@@ -1,8 +1,8 @@
 package if_else.in.movieguff;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +31,19 @@ public class MovieDetailActivityFragment extends Fragment {
 
             Movie movie = (Movie) movieDetailIntent.getParcelableExtra(Intent.EXTRA_TEXT);
 
-            ((TextView)rootView.findViewById(R.id.movie_detail_title_text)).setText(movie.getTitle());
-            ((TextView)rootView.findViewById(R.id.movie_detail_overview_text)).setText(movie.getOverview());
+            TextView movieTitleTextView = ((TextView)rootView.findViewById(R.id.movie_detail_title_text));
+            movieTitleTextView.setText(movie.getTitle());
+            movieTitleTextView.setSingleLine(true);
+            movieTitleTextView.setHorizontallyScrolling(true);
 
+            movieTitleTextView.setSingleLine();
+            ((TextView)rootView.findViewById(R.id.movie_detail_overview_text)).setText(movie.getOverview());
+            ((TextView)rootView.findViewById(R.id.movie_detail_release_date)).setText(movie.getReleaseDate());
+            ((TextView)rootView.findViewById(R.id.movie_detail_ratings)).setText(movie.getAvgRating().toString());
 
             ImageView imageView = (ImageView)rootView.findViewById(R.id.movie_detail_poster_img);
             Picasso.with(getActivity()).load(movie.getFullPosterPath()).into(imageView);
+
         }
         return rootView;
     }
