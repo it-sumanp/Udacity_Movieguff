@@ -25,10 +25,11 @@ import if_else.in.movieguff.util.MovieTileGridAdapter;
 
 public class MainActivityFragment extends Fragment implements AsyncMoviesResponce {
 
+    static String sortOdrer;
+    MovieTileGridAdapter mMoviesAdapter;
+
     public MainActivityFragment() {
     }
-
-    MovieTileGridAdapter mMoviesAdapter ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,20 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
 
     @Override
     public void onResume() {
-        Log.e("mainActivityFragment","onResume :: start");
+        Log.e("mainActivityFragment", "onResume :: start");
+        super.onResume();
 
         mMoviesAdapter.notifyDataSetChanged();
-        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("mainActivityFragment", "onStart :: start");
+
+        updateMovies();
+        mMoviesAdapter.notifyDataSetChanged();
+        Log.e("mainActivityFragment", "onStart :: end");
     }
 
     @Override
@@ -75,7 +86,7 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie movie = (Movie) mMoviesAdapter.getItem(position);
+                Movie movie = mMoviesAdapter.getItem(position);
                 Toast.makeText(getActivity(), movie.getTitle() + " :: " + movie.getFullPosterPath(), Toast.LENGTH_SHORT).show();
 
                 Intent movieDetailIntent = new Intent(getActivity(), MovieDetailActivity.class);
@@ -91,7 +102,7 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
     @Override
     public void asyncMovieApiTaskhFinish(List<Movie> movieList) {
 
-        Log.e("LISTING_MOVIES:::","LISTING_MOVIES:::LISTING_MOVIES:::LISTING_MOVIES:::LISTING_MOVIES:::");
+        Log.e("LISTING_MOVIES:::", "LISTING_MOVIES:::LISTING_MOVIES:::LISTING_MOVIES:::LISTING_MOVIES:::");
         if(movieList != null && movieList.size() > 0){
             Log.e("LISTING_MOVIES###", "LISTING_MOVIES###LISTING_MOVIES###LISTING_MOVIES###LISTING_MOVIES###");
 
@@ -113,6 +124,7 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
 
             ((MovieTileGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
 
+
 //  mMoviesAdapter.getMoviesList().addAll(movieList);
 
 
@@ -127,6 +139,9 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
         MovieApiUtil movieApiUtil = new MovieApiUtil(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortBy = preferences.getString(getString(R.string.sort_order_key), getString(R.string.app_setting_default_value));
-        movieApiUtil.execute(sortBy);
+        if (sortOdrer != null || !sortBy.equalsIgnoreCase(sortOdrer)) {
+            sortOdrer = sortBy;
+            movieApiUtil.execute(sortBy);
+        }
     }
 }
