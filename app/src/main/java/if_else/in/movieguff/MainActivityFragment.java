@@ -51,13 +51,13 @@ public class MainActivityFragment extends Fragment implements AsyncMoviesResponc
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        Log.e("mainActivityFragment", "onResume :: start");
-        super.onResume();
-
-        mMoviesAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onResume() {
+//        Log.e("mainActivityFragment", "onResume :: start");
+//        super.onResume();
+//
+//        mMoviesAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     public void onStart() {

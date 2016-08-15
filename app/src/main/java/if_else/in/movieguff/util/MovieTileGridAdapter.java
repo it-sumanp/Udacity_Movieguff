@@ -22,17 +22,17 @@ public class MovieTileGridAdapter extends BaseAdapter{
     private Context mContext;
     private List<Movie> moviesList = new ArrayList<Movie>();
 
+    public MovieTileGridAdapter(Context c, List<Movie> movieList) {
+        mContext = c;
+        this.moviesList = movieList;
+    }
+
     public List<Movie> getMoviesList() {
         return moviesList;
     }
 
     public void setMoviesList(List<Movie> moviesList) {
         this.moviesList = moviesList;
-    }
-
-    public MovieTileGridAdapter(Context c,List<Movie> movieList) {
-        mContext = c;
-        this.moviesList = movieList;
     }
 
     @Override
@@ -60,15 +60,15 @@ public class MovieTileGridAdapter extends BaseAdapter{
             Log.e("ADAPTER ::: ","creating view for " + moviesList.get(position).toString());
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.movie_tile, null);
-
-            TextView textView = (TextView) grid.findViewById(R.id.movie_tile_text);
-            textView.setText(moviesList.get(position).getTitle());
-
-            ImageView imageView = (ImageView)grid.findViewById(R.id.movie_tile_img);
-            Picasso.with(mContext).load(moviesList.get(position).getFullPosterPath()).into(imageView);
         } else {
-            grid = (View) convertView;
+            grid = convertView;
         }
+
+        TextView textView = (TextView) grid.findViewById(R.id.movie_tile_text);
+        textView.setText(moviesList.get(position).getTitle());
+
+        ImageView imageView = (ImageView) grid.findViewById(R.id.movie_tile_img);
+        Picasso.with(mContext).load(moviesList.get(position).getFullPosterPath()).into(imageView);
 
         return grid;
     }
